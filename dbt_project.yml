@@ -1,0 +1,35 @@
+name: 'canno'
+version: '1.0.0'
+
+profile: 'canno'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  projeto_um:
+    staging:
+      schema: stg
+      materialized: table
+      tag: '[staging]'
+    intermediate:
+      schema: int
+      materialized: ephemeral
+      tag: '[intermediate]'
+    marts:
+      schema: marts
+      materialized: table
+      tag: '[marts]'
+
+seeds:
+  projeto_um:
+    schema: raw
+    tag: '[seeds]'

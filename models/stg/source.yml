@@ -1,0 +1,256 @@
+version: 2
+
+sources:
+
+  - name: canno
+    description: "Dados da nossa loja de maquiagens e serviços"
+    schema: canno
+    loader : bigquery
+
+    tables:
+      - name: pedidos_raw
+        description: "Tabela de pedidos"
+        columns:
+          - name: id_pedido
+            description: "Chave primária do pedido"
+            data_tests:
+              - not_null
+              - unique
+          - name: id_cliente
+            description: "Chave estrangeira do cliente"
+            data_tests:
+              - not_null
+          - name: data_pedido
+            description: "Data do pedido"
+            data_tests:
+              - not_null
+          - name: status_pedido
+            description: "Status do pedido"
+          - name: valor_total
+            description: "Valor total do pedido"
+            data_tests:
+              - not_null
+
+      - name: clientes_raw
+        description: "Tabela de clientes"
+        columns:
+          - name: id
+            description: "Chave primária do cliente"
+            data_tests:
+              - not_null
+              - unique
+          - name: nome_completo
+            description: "Nome do cliente"
+          - name: e_mail
+            description: "Email do cliente"
+          - name: tel
+            description: "Telefone do cliente"
+          - name: nasc
+            description: "Data de nascimento do cliente"
+          - name: cep
+            description: "CEP do cliente"
+          - name: cidade
+            description: "Cidade do cliente"
+          - name: estado
+            description: "Estado do cliente"
+          - name: criado_em
+            description: "Data de criação do cliente"
+
+      - name: itens_pedido_raw
+        description: "Tabela de itens dos pedidos"
+        columns:
+          - name: id_item
+            description: "Chave primária do item do pedido"
+            data_tests:
+              - not_null
+          - name: id_pedido
+            description: "Chave estrangeira do pedido"
+            data_tests:
+              - not_null
+          - name: id_produto
+            description: "Chave estrangeira do produto"
+            data_tests:
+              - not_null
+          - name: quantidade
+            description: "Quantidade do produto"
+          - name: preco_unitario
+            description: "Preço unitário do produto"
+          - name: desconto
+            description: "Desconto aplicado ao item do pedido"
+
+      - name: produtos_raw
+        description: "Tabela de produtos"
+        columns:
+          - name: id_produto
+            description: "Chave primária do produto"
+            data_tests:
+              - not_null
+              - unique
+          - name: nome
+            description: "Nome do produto"
+          - name: marca
+            description: "Marca do produto"
+          - name: preco
+            description: "Preço do produto"
+          - name: disponivel_em_estoque
+            description: "Disponibilidade do produto em estoque"
+          - name: categoria
+            description: "Categoria do produto"
+
+      - name: pagamentos_raw
+        description: "Tabela de pagamentos"
+        columns:
+          - name: id_pagamento
+            description: "Chave primária do pagamento"
+            data_tests:
+              - not_null
+              - unique
+          - name: id_pedido
+            description: "Chave estrangeira do pedido"
+            data_tests:
+              - not_null
+          - name: valor_pago
+            description: "Valor pago"
+          - name: metodo_pagamento
+            description: "Método de pagamento"
+          - name: status_pagamento
+            description: "Status do pagamento"
+          - name: data_pagamento
+            description: "Data do pagamento"
+          - name: tentativa_numero
+            description: "Número da tentativa de pagamento"
+
+      - name: estoque_raw
+        description: "Tabela de estoque"
+        columns:
+          - name: id_movimento
+            description: "Chave primária do movimento de estoque"
+            data_tests:
+              - not_null
+              - unique
+          - name: id_produto
+            description: "Chave estrangeira do produto"
+            data_tests:
+              - not_null
+          - name: qtd
+            description: "Quantidade disponível em estoque"
+          - name: tipo
+            description: "Tipo de movimento (entrada/saída)"
+          - name: data_movimentacao
+            description: "Data do movimento de estoque"
+          - name: motivo
+            description: "Motivo do movimento de estoque"
+
+      - name: servicos_raw
+        description: "Tabela de serviços"
+        columns:
+          - name: id
+            description: "Chave primária do serviço"
+            data_tests:
+              - not_null
+              - unique
+          - name: nome_servico
+            description: "Nome do serviço"
+          - name: preco
+            description: "Preço do serviço"
+          - name: duracao
+            description: "Duração do serviço"
+          - name: categoria
+            description: "Categoria do serviço"
+          - name: responsavel
+            description: "Responsável pelo serviço"
+
+      - name: clientes_campanhas_raw
+        description: "Tabela de clientes da campanha"
+        columns:
+          - name: cliente
+            description: "Chave primária do cliente"
+            data_tests:
+              - not_null
+          - name: campanha
+            description: "Chave primária da campanha"
+            data_tests:
+              - not_null
+          - name: data
+            description: "Data da campanha"
+
+      - name: interacoes 
+        description: "Tabela de interações"
+        columns:
+          - name: id_cliente
+            description: "Chave estrangeira do cliente"
+            data_tests:
+              - not_null
+          - name: id_campanha
+            description: "Chave estrangeira da campanha"
+            data_tests:
+              - not_null
+          - name: data_interacao
+            description: "Data da interação"
+
+      - name: agendamentos_raw
+        description: "Tabela de agendamentos"
+        columns:
+          - name: id_agendamento
+            description: "Chave primária do agendamento"
+            data_tests:
+              - not_null
+              - unique
+          - name: id_cliente
+            description: "Chave estrangeira do cliente"
+            data_tests:
+              - not_null
+          - name: id_servico
+            description: "Chave estrangeira do serviço"
+            data_tests:
+              - not_null
+          - name: data_agendada
+            description: "Data do agendamento"
+          - name: hora
+            description: "Hora do agendamento"
+          - name: status_agendamento
+            description: "Status do agendamento"
+
+      - name: avaliacoes_raw
+        description: "Tabela de avaliações"
+        columns:
+          - name: id_avaliacao
+            description: "Chave primária da avaliação"
+            data_tests:
+              - not_null
+              - unique
+          - name: id_cliente
+            description: "Chave estrangeira do cliente"
+            data_tests:
+              - not_null
+          - name: id_produto
+            description: "Chave estrangeira do produto"
+            data_tests:
+              - not_null
+          - name: nota
+            description: "Nota da avaliação"
+          - name: comentario
+            description: "Comentário da avaliação"
+          - name: data
+            description: "Data da avaliação"
+
+      - name: campanhas_raw
+        description: "Tabela de campanhas"
+        columns:
+          - name: id_campanha
+            description: "Chave primária da campanha"
+            data_tests:
+              - not_null
+              - unique
+          - name: nome
+            description: "Nome da campanha"
+          - name: canal
+            description: "Canal da campanha"
+          - name: inicio
+            description: "Data de início da campanha"
+          - name: fim
+            description: "Data de fim da campanha"
+          - name: orcamento
+            description: "Orçamento da campanha"
+
+
